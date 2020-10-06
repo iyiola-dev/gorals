@@ -32,53 +32,49 @@ class _HomeState extends State<Home> {
                     height: MediaQuery.of(context).size.height,
                     padding: const EdgeInsets.all(18),
                     child: SingleChildScrollView(
-                        child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'data',
-                            style: TextStyle(color: Colors.black, fontSize: 17),
-                          ),
+                        child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'data',
+                          style: TextStyle(color: Colors.black, fontSize: 17),
+                        ),
 
-                          /* Text(
-                            'Hospital ID: ${datum[1]}',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(datum[index].staffRoster.monday.toString()), */
-                          /* JsonTable(datum, tableHeaderBuilder: (String header) {
-                            return Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 4.0),
-                              decoration: BoxDecoration(
-                                  border: Border.all(width: 0.5),
-                                  color: Colors.grey[300]),
-                              child: Text(
-                                header,
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          }, tableCellBuilder: (value) {
-                            return Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 4.0, vertical: 2.0),
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                      width: 0.5,
-                                      color: Colors.grey.withOpacity(0.5))),
-                              child: Text(
-                                value,
-                                textAlign: TextAlign.center,
-                              ),
-                            );
-                          }), */
-                        ],
-                      ),
+                        /* Text(
+                              'Hospital ID: ${datum[1]}',
+                              style: TextStyle(color: Colors.black, fontSize: 20),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(datum[index].staffRoster.monday.toString()), */
+                        /* JsonTable(datum, tableHeaderBuilder: (String header) {
+                              return Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 4.0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(width: 0.5),
+                                    color: Colors.grey[300]),
+                                child: Text(
+                                  header,
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            }, tableCellBuilder: (value) {
+                              return Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 4.0, vertical: 2.0),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 0.5,
+                                        color: Colors.grey.withOpacity(0.5))),
+                                child: Text(
+                                  value,
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            }), */
+                      ],
                     ))),
               );
             } else if (snapshot.hasError) {
