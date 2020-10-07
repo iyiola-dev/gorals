@@ -1,11 +1,6 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:gorals/core/models/gorals_model.dart';
 import 'package:gorals/core/service/goralApi.dart';
-import 'package:http/http.dart';
-import 'package:json_table/json_table.dart';
-import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,8 +10,28 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   GoralApi goralApi = GoralApi();
   Start start;
-  StaffRoster staffRoster;
   Valid valid;
+  Data data;
+  Gorals model;
+
+  List<TableRow> returnData(List<Shifts> shift, StaffRoster staffRoster,
+      {String identity}) {
+    List<TableRow> lt = [];
+    var rosterMap = staffRoster.toJson();
+    for (var i = 0; i < shift.length; i++) {
+      var item = shift[i];
+      lt.add(TableRow(children: [
+        Text("${item.start[0].hour} - ${item.stop[0].hour}"),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ...rosterMap[identity]["${i + 1}"].map((e) => Text("$e")).toList()
+          ],
+        ),
+      ]));
+    }
+    return lt;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,46 +49,41 @@ class _HomeState extends State<Home> {
                     child: SingleChildScrollView(
                         child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'data',
-                          style: TextStyle(color: Colors.black, fontSize: 17),
-                        ),
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        ListView.builder(
+                          itemCount: model.data.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            var content = model.data[index];
 
-                        /* Text(
-                              'Hospital ID: ${datum[1]}',
-                              style: TextStyle(color: Colors.black, fontSize: 20),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            Text(datum[index].staffRoster.monday.toString()), */
-                        /* JsonTable(datum, tableHeaderBuilder: (String header) {
-                              return Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 8.0, vertical: 4.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(width: 0.5),
-                                    color: Colors.grey[300]),
-                                child: Text(
-                                  header,
-                                  textAlign: TextAlign.center,
-                                ),
-                              );
-                            }, tableCellBuilder: (value) {
-                              return Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 4.0, vertical: 2.0),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        width: 0.5,
-                                        color: Colors.grey.withOpacity(0.5))),
-                                child: Text(
-                                  value,
-                                  textAlign: TextAlign.center,
-                                ),
-                              );
-                            }), */
+                            return Padding(
+                              padding: const EdgeInsets.all(20),
+                              child: Table(
+                                border: TableBorder.all(),
+                                columnWidths: {0: FractionColumnWidth(.2)},
+                                children: [
+                                  ...content.openingDays.map(
+                                    (e) {
+                                      return TableRow(children: [
+                                        Text("$e"),
+                                        Table(
+                                          border: TableBorder.all(),
+                                          children: [
+                                            ...returnData(content.shifts,
+                                                content.staffRoster,
+                                                identity: e)
+                                          ],
+                                        ),
+                                      ]);
+                                    },
+                                  ).toList()
+                                ],
+                              ),
+                            );
+                          },
+                        )
                       ],
                     ))),
               );
